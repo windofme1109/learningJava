@@ -224,7 +224,7 @@
     - 返回值类型：可以是int，float，byte等一些数据类型，还包括自定义的一些类。没有返回值使用void。
     - 参数列表：方法需要的参数。
   - 代码示例：
-  ```
+    ```
     public class Demo11Method {
     	public static void main(String[] args) {
     		// 调用一个方法
@@ -239,13 +239,80 @@
     		System.out.println("water") ;
     	}
 }
-  ```
+    ```
   - 调用方式：
     - 单独调用
     - 打印调用
     - 赋值调用
+  - 有返回值的方法，适合于任意一种方式的调用。
+  - 没有返回值的方法，只适合于单独调用。
+  - 方法有没有返回值，主要是看我们需不需要这个方法最终产生的数据，需要，就得有返回值，否则就没有返回值。
+  - 注意事项：
+    - 方法只能在类中定义，而方法中不能再定义方法。
+    - 返回值类型必须和方法定义时的类型相同。
     
-1.14 **编译器优化（面试常问的问题）**
+1.14 方法重载（overload）
+   - 多个方法名称相同，但是参数列表不同。
+   - 优势：只要记住一个方法名称，就可以实现多个类似的功能。
+   - 方法重载与下列因素有关：
+     - 参数个数不同
+     - 参数类型不同
+     - 参数的多类型顺序不同
+   - 方法重载与下列因素无关：
+     - 与参数名称无关
+     - 与返回值类型无关
+   - 也就是对于方法重载，方法名称必须一样，返回值类型必须一样，接收的参数类型和参数名称也必须一样。
+   - 代码示例：
+     ```
+     package cn.itcast.day04.demo04;
+     
+     /**
+      * 方法的重载
+      */
+     public class Demo01MethodOverload {
+         public static void main(String[] args) {
+             System.out.println(add(10, 20));
+             System.out.println(add(10, 20, 30));
+             System.out.println(add(10, 20, 30, 40));
+             System.out.println(multiplication(5.5, 4));
+         }
+     
+         public static int add(int a, int b) {
+             System.out.println("调用两个参数的方法");
+             return a+ b ;
+         }
+     
+         public static int add(double a, int b, int c) {
+             System.out.println("调用三个参数的方法");
+             return (int) (a+ b + c) ;
+         }
+         public static int add(int a, int b, int c, int d) {
+             System.out.println("调用四个参数的方法");
+             return a+ b + c + d ;
+         }
+     
+         //
+         public static int multiplication(int a, int b) {
+             return a * b ;
+         }
+         public static int multiplication(double a, int b) {
+             System.out.println("乘法，调用两个参数的方法");
+             return (int) a * b ;
+         }
+     
+         // 方法重载的返回值类型必须相同
+     //    public static double multiplication(int a, int b) {
+     //        return a * b ;
+     //    }
+     
+         // 方法重载的参数的名称必须相同
+     //    public static int multiplication(int x, int y) {
+     //        return x * y ;
+     //    }
+     }
+     ```
+     
+1.15 **编译器优化（面试常问的问题）**
   - 对于byte/char/short三种类型来说，如果右侧赋值的数值没有超过范围，那么在编译过程中，会自动隐含的为我们补上一个(byte)(char)(short)。
   - 如果没有超过左侧的范围，编译器补上强转。
   - 如果右侧超过了左侧范围，那么编译器直接报错。
@@ -292,7 +359,7 @@
 }
   ```
 
-1.15 三种循环
+1.16 三种循环
   - for
   - while
   - do while
@@ -347,3 +414,55 @@
     - `do while`用的比较少。
   
   
+1.17 数组
+  - 特点
+    - 数组是一种引用数据类型
+    - 数组中的多个元素，类型必须统一
+    - 数组的长度在运行期间不可以发生改变
+  - 初始化
+    - 在内存中分配一块空间，并向其中赋予一些默认值。
+    - 两种常见的初始化方式：
+      - 动态初始化（指定长度）
+      - 静态初始化（指定内容）
+  - 动态初始化数组的格式：`数据类型[] 数组名称 = new 数据类型[数组长度];`
+  - 静态初始化数组的格式：`数据类型[] 数组名称 = new 数据类型[] {元素1, 元素2, ...};`
+  - 使用建议：
+    - 内容已经确定，使用静态初始化
+    - 内容不确定，使用动态初始化
+  - 动态初始化过程中，元素的默认值：
+  
+    数据类型|默认值
+    |:---:|:---:|
+    整型|0
+    浮点型|0.0
+    字符型|'\u0000'，这是一个不可打印的字符
+    布尔类型|false
+    引用类型|null
+   
+  - 静态初始化也有默认值的过程，只不过系统马上将默认值替换为大括号中具体的值。
+  
+1.18 Java对于内存的管理
+  1. 栈（stack）
+    - 存放的都是方法中的局部变量，**方法运行时一定要在栈当中。**
+    - 局部变量指的是方法的参数，或者是方法{}内部的变量，仅在作用域内起作用。
+  2. 堆（heap）
+    - **凡是new出来的东西，都存放在堆内存中。**
+    - 堆内存存放的东西，都有默认值。规则如下：
+    
+      数据类型|默认值
+        |:---:|:---:|
+        整型|0
+        浮点型|0.0
+        字符型|'\u0000'，这是一个不可打印的字符
+        布尔类型|false
+        引用类型|null
+        
+  3. 方法区（Method Area）
+    - **存放.class相关的信息，包含方法的信息。**
+  4. 本地方法栈（Native Method Stack）
+    - 与操作系统相关。
+  5. 寄存器（pc Register）
+    - 与CPU相关。
+  
+  
+    
