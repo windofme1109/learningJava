@@ -16,3 +16,7 @@
    - 生成构造器（set/get/toString）
 8. ctrl + shift + f10
    - 运行某个main()方法，文件
+   
+### 2. Intellij IDEA快捷键
+1. shift + f6
+   - 在一个函数中，用来替换被引用的变量
