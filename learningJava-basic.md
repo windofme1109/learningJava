@@ -471,5 +471,46 @@
   - 索引越界异常：ArrayIndexOutOfBoundsException
   - 空指针异常：NullPointerException
   
+1.20 数组作为方法的参数
+  - 传递进去的是数组的地址。因为数组是引用数据类型。变量保存的也是数组的引用地址。
+1.21 数组作为方法的返回值
+  - 任何数据类型都能作为方法的参数，也能作为方法的返回值。
+  - 数组作为方法的返回值，返回的也是地址值。
+  - 代码示例:
+    ```
+    package cn.itcast.day05.demo04;
+    
+    /**
+     * 数组作为方法返回值，返回的也是地址
+     */
+    public class Demo02ArrayReturn {
+        public static void main(String[] args) {
+            int[] result = calculate(10, 20, 30) ;
+            // 返回值也是地址，[I@58ceff1
+            System.out.println(result);
+            // sum is 60
+            System.out.println("sum is " + result[0]);
+            // avg is 20
+            System.out.println("avg is " + result[1]);
+        }
+    
+        /**
+         *
+         * @param a
+         * @param b
+         * @param c
+         * @return
+         */
+        public static int[] calculate(int a, int b, int c) {
+            int sum = a + b + c ;
+            int avg = sum / 3 ;
+            int[] ret = {sum, avg} ;
+            return ret ;
+        }
+    }
+    ```
+1.22 面向对象的基本概念 
+
+  
   
     
