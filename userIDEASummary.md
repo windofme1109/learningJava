@@ -8,4 +8,4 @@
 
 ### 4. 快速生成for循环
 - 输入5.fori，按下table键，就会生成`for(int i = 0; i < 5; i++) {}`。
-- 既是：count.fori ————> for(int i = 0; i < count; i++) {}`。
+- 既是：`count.fori` ————> `for(int i = 0; i < count; i++) {}`。
