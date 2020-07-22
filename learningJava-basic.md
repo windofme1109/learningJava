@@ -608,7 +608,206 @@
    - **生命周期不同**
      - 局部变量：随着方法进栈而诞生，随着方法出栈而消失。
      - 成员变量：随着对象的创建而诞生，随着对象被垃圾回收而消失。
+     
+1.27 面向对象的三大特性——封装性
+  - 封装性在java中的体现：
+    - 方法就是一种封装
+    - 关键字private也是一种封装
+  - 使用private对成员变量进行修饰，使得我们不能直接设置和获取类中的成员变量，必须使用setter/getter方法。这样提高了数据的安全性，而在setter方法中，还可以对传入的数据进行限制，从而保证了数据的合理性。
+  - 代码示例：
+    ```
+       package cn.itcast.day06.demo03;
+       
+       public class Person {
+           private String name ;
+           private int age ;
+       
+           public void setAge(int num) {
+               if (num <= 100 && num > 0) {
+                   age = num ;
+               } else{
+                   System.out.println("输入数据有误！！！！！！！！");
+               }
+       
+           }
+           public int getAge() {
+               return age ;
+           }
+    
+           public void setName(String str) {
+               name = str ;
+           }
+           public String getName() {
+               return name ;
+           }
+    
+           public void show() {
+               System.out.println("姓名: " + name + ", " + "年龄: " + age);
+           }
+       }
 
-  
+    ```
+  - setter/getter的格式（Xxx表示首字母大写的成员变量名）：
+    - `public void setXxx(参数) {}`
+    - `public 类型 getXxx() {}`
+  - 如果在类中定义有布尔值，则布尔值的getter方法的格式是:`public boolean isXxx() {}`，setter方法的格式没有变化。
+
+1.28 this关键字
+  - this用来区分局部变量和成员变量。
+  - 原则：**谁调用这个包含this的方法，this就指向谁**
+  - this一般是定义在类中的普通方法中，所以哪个实例调用这个方法，方法中的this就指向哪个实例。
+    ```
+       package cn.itcast.day06.demo04;
+       
+       public class Person {
+           String name ;
+       
+           public void greeting(String name) {
+               // this指向当前的调用对象
+               System.out.println(name + " hello, i am " + this.name);
+               System.out.println("当前的this指向：" + this);
+           }
+       }
+    
+      package cn.itcast.day06.demo04;
+      
+      public class Demo01Person {
+      
+      
+          public static void main(String[] args) {
+              Person person = new Person() ;
+              person.name = "jack" ;
+              person.greeting("smith");
+              // smith hello, i am jack
+              // 当前的this指向：cn.itcast.day06.demo04.Person@3b81a1bc
+              // person指向：cn.itcast.day06.demo04.Person@3b81a1bc
+              System.out.println("person指向：" + person);
+          }
+      }
+    ```
+    - 从上述代码的输出中，我们可以看出，this和person指向的是同一个对象。
+    
+1.29 构造方法
+  - 在实例化一个新的对象的时候，实际上调用的是构造方法。
+    ```
+       package cn.itcast.day06.demo04;
+       
+       public class Student {
+           public Student() {
+               System.out.println("构造方法执行了！！！！！！！");
+           }
+       }
+    
+       public class Demo02Student {
+           public static void main(String[] args) {
+               // 构造方法执行了！！！！！！！
+               Student stu = new Student() ;
+           }
+       
+       }
+    ```
+  - 从上面的输出中，可以看出，在实例化过程中，确实会调用构造方法。
+  - 构造方法的定义：`public 类名称() {方法体}`
+  - 构造方法注意事项：
+    - 构造方法的名称必须与类名相同
+    - 构造方法不要写返回值类型，连void也不要写
+    - 构造方法内部，不能写return
+    - 如果没有显式的声明一个构造方法，那么编译器会加上一个构造方法
+    - 构造方法可以进行重载。
+    - 代码示例：
+      ```
+        package cn.itcast.day06.demo04;
+        
+        public class Student {
+        
+            private String name ;
+            private int age ;
+        
+            // 构造方法可以进行重载
+            public Student() {
+                System.out.println("构造方法执行了！！！！！！！");
+            }
+        
+            public Student(String name, int age) {
+                this.name = name ;
+                this.age = age ;
+            }
+        
+            public void setName(String name) {
+                this.name = name;
+            }
+            public String getName() {
+                        return this.name ;
+            }
+      
+            public void setAge(int age) {
+                this.age = age;
+            }
+            public int getAge() {
+                return this.age ;
+            }
+        }
+        
+        package cn.itcast.day06.demo04;
+        
+        public class Demo02Student {
+            public static void main(String[] args) {
+        
+                Student stu = new Student("张三", 25) ;
+        
+                System.out.println("姓名：" + stu.getName());
+                System.out.println("年龄：" + stu.getAge());
+                System.out.println("===============");
+        
+                // 由于构造方法可进行重载，所以不传入参数的时候，调用的是无参的构造方法
+                Student stu2 = new Student() ;   // 构造方法执行了！！！！！！！
+        
+            }
+        
+        }
+      ```
+
+1.30 构造一个标准的类
+  - 构造一个标准的java类，包含四部分内容：
+    1. 所以的成员变量使用private进行修饰。
+    2. 为每一个成员变量书写getter/setter方法
+    3. 编写一个无参数的构造方法
+    4. 编写一个全参数的构造方法
+  - 符合这样的标准的类，被称为是Java Bean。
+  - 代码示例
+    ```
+        public class Student {
+        
+            private String name ;
+            private int age ;
+
+            public Student() {}
+        
+            public Student(String name, int age) {
+                this.name = name ;
+                this.age = age ;
+            }
+        
+            public void setName(String name) {
+                this.name = name;
+            }
+        
+            public void setAge(int age) {
+                this.age = age;
+            }
+        
+            public String getName() {
+                return this.name ;
+            }
+        
+            public int getAge() {
+                return this.age ;
+            }
+        }
+
+    ```
+    
+1.31 static 关键字
+  - 一旦某个方法或者成员变量被static修饰，那么这个方法或者成员变量就不属于某个实例本身，而是属于这个类。多个对象共享这个一个数据。
   
     
